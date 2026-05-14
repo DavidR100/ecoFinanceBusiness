@@ -39,7 +39,7 @@ public class PanelInventario extends javax.swing.JPanel {
         JPanel top = new JPanel(new BorderLayout());
         top.setOpaque(false); // === No pintar fondo
         
-        JLabel title = new JLabel("💰  Módulo 1 — Finanzas");  
+        JLabel title = new JLabel("💰  Módulo 1 — Inventario");  
         title.setFont(UITheme.FONT_EMOJI_BOLD_NORMAL);
         title.setForeground(UITheme.INK);
         
