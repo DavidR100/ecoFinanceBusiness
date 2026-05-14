@@ -61,7 +61,7 @@ public class PanelSostenibilidad extends javax.swing.JPanel {
     private void content(){
         
     }
-    private void 
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
