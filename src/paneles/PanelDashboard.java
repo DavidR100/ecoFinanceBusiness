@@ -58,6 +58,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         return top;
     }
     
+    
     private void content(){
         
     }
