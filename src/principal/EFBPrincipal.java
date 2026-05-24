@@ -14,8 +14,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import paneles.CambiaPanel;
 import paneles.PanelDashboard;
+import paneles.PanelDesperdicio;
 import paneles.PanelFinanzas;
 import paneles.PanelInventario;
+import paneles.PanelReporte;
 import paneles.PanelSostenibilidad;
 import ui.SidebarPanel;
 import ui.UITheme;
@@ -26,6 +28,8 @@ import ui.UITheme;
  */
 public class EFBPrincipal extends javax.swing.JFrame {
     
+    public FinanceService financeService;
+    
     // PRINCIPALES COMPONENTES
     private JPanel contentPanel;
     private JPanel sidebar;
@@ -35,12 +39,19 @@ public class EFBPrincipal extends javax.swing.JFrame {
     private PanelInventario pInventario;
     private PanelDashboard pDashboard;
     private PanelFinanzas pFinanzas;
-    private PanelSostenibilidad pSostenibilidad;
+    private PanelSostenibilidad pSostenibilidad;    
+    private PanelDesperdicio pDesperdicio;    
+    private PanelReporte pReporte;
+
+
     /**
      * Creates new form EFBPrincipal
      */
     public EFBPrincipal() {
         initComponents();
+        
+        financeService = new FinanceService();
+        guardarIngreso();
         
         setTitle("EcoFinance Business - Pizzería Sostenible");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,13 +77,21 @@ public class EFBPrincipal extends javax.swing.JFrame {
         pDashboard = new PanelDashboard(this);
         pFinanzas = new PanelFinanzas();
         pSostenibilidad = new PanelSostenibilidad(); 
-        pInventario = new PanelInventario();
+        pInventario = new PanelInventario();    
+        pDesperdicio = new PanelDesperdicio(this);
+        pReporte = new PanelReporte(this);
+
+
         
         // ==== ADICIONO LOS PANELS AL PRINCIPAL
         contentPanel.add(pDashboard, "dashboard");
         contentPanel.add(pFinanzas, "finanzas");
         contentPanel.add(pSostenibilidad, "sostenibilidad");
-        contentPanel.add(pInventario, "inventario");
+        contentPanel.add(pInventario, "inventario");  
+        contentPanel.add(pDesperdicio, "desperdicio"); 
+        contentPanel.add(pReporte, "reporte");
+
+
 
         // inventario
         // desperdicio
@@ -97,6 +116,10 @@ public class EFBPrincipal extends javax.swing.JFrame {
  
         }), BorderLayout.WEST);
         
+    }
+    
+    private void guardarIngreso() {
+        financeService.agregarIngreso(50000);
     }
     
     // ── Navegación ───────────────────────────────────────────────────────────

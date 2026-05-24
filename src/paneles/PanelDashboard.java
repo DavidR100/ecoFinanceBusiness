@@ -26,6 +26,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import principal.AppState;
 import principal.EFBPrincipal;
+import principal.FinanceService;
 import ui.EcoBorders;
 import ui.RoundedBorder;
 import ui.UITheme;
@@ -35,6 +36,8 @@ import ui.UITheme;
  * @author omar.rebolledo
  */
 public class PanelDashboard extends javax.swing.JPanel {
+    
+     //private FinanceService financeService;
     
     private EFBPrincipal app;
 
@@ -62,6 +65,13 @@ public class PanelDashboard extends javax.swing.JPanel {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(24, 28, 24, 28));
         buildUI();
+    }
+    
+     public void actualizarDatos() {
+
+        double balance = app.financeService.getBalance();
+
+        System.out.println(balance);
     }
     
         // ── Construcción de la interfaz ───────────────────────
@@ -164,7 +174,8 @@ public class PanelDashboard extends javax.swing.JPanel {
         statsRow.setOpaque(false);
  
         // Chips de estadísticas
-        JPanel chipIngresos  = buildStatChip("Ingresos",  "$10.00",   UITheme.VERDE_CLARO);
+        String ingreso = String.format("%.2f", app.financeService.getIngresos());
+        JPanel chipIngresos  = buildStatChip("Ingresos",  ingreso,   UITheme.VERDE_CLARO);
         JPanel chipGastos    = buildStatChip("Gastos",    "$0.00",   UITheme.CORAL);
         JPanel chipRegistros = buildStatChip("Registros", "0",       Color.WHITE);
  

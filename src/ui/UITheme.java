@@ -94,15 +94,13 @@ public class UITheme {
     // ====================================
     // FORMATOS DE NUMERO
     // ====================================
-        // Formato de moneda
+    // Formato de moneda
     public static final DecimalFormat FMT_MONEY = new DecimalFormat("$#,##0.00");
-    public static final DecimalFormat FMT_NUM   = new DecimalFormat("#,##0.000");
-    
-    
+    public static final DecimalFormat FMT_NUM = new DecimalFormat("#,##0.000");
+
     // ====================================
     // CARDS
     // ====================================
-    
     // Crea un card panel con sombra y bordes redondeados
     public static JPanel card(LayoutManager layout) {
         JPanel p = new JPanel(layout) {
@@ -121,34 +119,40 @@ public class UITheme {
         p.setBorder(new EmptyBorder(14, 16, 14, 16));
         return p;
     }
-    
-/** Etiqueta de sección en mayúsculas y color muted. */
+
+    /**
+     * Etiqueta de sección en mayúsculas y color muted.
+     */
     public static JLabel sectionTitle(String text) {
         JLabel l = new JLabel(text.toUpperCase());
         l.setFont(new Font("Segoe UI", Font.BOLD, 10));
         l.setForeground(MUTED);
         return l;
     }
- 
-    /** Número/texto grande con color personalizado. */
+
+    /**
+     * Número/texto grande con color personalizado.
+     */
     public static JLabel heroAmount(String text, Color color) {
         JLabel l = new JLabel(text);
         l.setFont(FONT_HERO);
         l.setForeground(color);
         return l;
     }
- 
-  /** Botón principal verde con hover. */
+
+    /**
+     * Botón principal verde con hover.
+     */
     public static JButton primaryButton(String text) {
         JButton b = new JButton(text) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                                    RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(getModel().isPressed()  ? VERDE_PRINCIPAL
-                          : getModel().isRollover() ? VERDE_CLARO
-                          :                           VERDE_MEDIO);
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getModel().isPressed() ? VERDE_PRINCIPAL
+                        : getModel().isRollover() ? VERDE_CLARO
+                        : VERDE_MEDIO);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
                 g2.dispose();
                 super.paintComponent(g);
@@ -163,54 +167,57 @@ public class UITheme {
         b.setBorder(new EmptyBorder(10, 20, 10, 20));
         return b;
     }
- 
-    /** Botón secundario (misma forma, texto en verde). */
+
+    /**
+     * Botón secundario (misma forma, texto en verde).
+     */
     public static JButton secondaryButton(String text) {
         JButton b = primaryButton(text);
         b.setForeground(VERDE_PRINCIPAL);
         return b;
     }
- 
-        static JTextField styledField(String placeholder) {
-            JTextField f = new JTextField(placeholder);
-            f.setFont(FONT_BODY);
-            f.setForeground(INK);
-            f.setBorder(BorderFactory.createCompoundBorder(
+
+    public static JTextField styledField(String placeholder) {
+        JTextField f = new JTextField(placeholder);
+        f.setFont(FONT_BODY);
+        f.setForeground(INK);
+        f.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(LINE, 1, true),
                 new EmptyBorder(8, 10, 8, 10)
-            ));
-            return f;
-        }
- 
-        static JLabel fieldLabel(String text) {
-            JLabel l = new JLabel(text);
-            l.setFont(new Font("Segoe UI", Font.BOLD, 11));
-            l.setForeground(MUTED);
-            return l;
-        }
- 
-        // Chip / badge
-        static JLabel chip(String text, Color bg, Color fg) {
-            JLabel l = new JLabel(text) {
-                @Override protected void paintComponent(Graphics g) {
-                    Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setColor(bg);
-                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-                    g2.dispose();
-                    super.paintComponent(g);
-                }
-            };
-            l.setOpaque(false);
-            l.setFont(new Font("Segoe UI", Font.BOLD, 10));
-            l.setForeground(fg);
-            l.setBorder(new EmptyBorder(3, 10, 3, 10));
-            return l;
-        }
- 
-   /**
-     * Barra de progreso personalizada con color variable.
-     * value = valor actual, max = valor máximo.
+        ));
+        return f;
+    }
+
+    public static JLabel fieldLabel(String text) {
+        JLabel l = new JLabel(text);
+        l.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        l.setForeground(MUTED);
+        return l;
+    }
+
+    // Chip / badge
+    static JLabel chip(String text, Color bg, Color fg) {
+        JLabel l = new JLabel(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(bg);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        l.setOpaque(false);
+        l.setFont(new Font("Segoe UI", Font.BOLD, 10));
+        l.setForeground(fg);
+        l.setBorder(new EmptyBorder(3, 10, 3, 10));
+        return l;
+    }
+
+    /**
+     * Barra de progreso personalizada con color variable. value = valor actual,
+     * max = valor máximo.
      */
     public static JPanel progressBar(double value, double max, Color color) {
         JPanel outer = new JPanel(new BorderLayout()) {
@@ -218,7 +225,7 @@ public class UITheme {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                                    RenderingHints.VALUE_ANTIALIAS_ON);
+                        RenderingHints.VALUE_ANTIALIAS_ON);
                 // Track
                 g2.setColor(LINE);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
@@ -227,7 +234,7 @@ public class UITheme {
                 if (pct > 0) {
                     g2.setColor(color);
                     g2.fillRoundRect(0, 0, (int) (getWidth() * pct),
-                                     getHeight(), 10, 10);
+                            getHeight(), 10, 10);
                 }
                 g2.dispose();
             }
@@ -235,6 +242,6 @@ public class UITheme {
         outer.setOpaque(false);
         outer.setPreferredSize(new Dimension(0, 10));
         return outer;
-    
-}
+
+    }
 }
