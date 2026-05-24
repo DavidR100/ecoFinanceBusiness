@@ -39,7 +39,7 @@ public class PanelSostenibilidad extends javax.swing.JPanel {
         JPanel top = new JPanel(new BorderLayout());
         top.setOpaque(false); // === No pintar fondo
         
-        JLabel title = new JLabel("💰  Módulo 1 — Finanzas");  
+        JLabel title = new JLabel("Sostenibilidad");  
         title.setFont(UITheme.FONT_EMOJI_BOLD_NORMAL);
         title.setForeground(UITheme.INK);
         
@@ -61,6 +61,7 @@ public class PanelSostenibilidad extends javax.swing.JPanel {
     private void content(){
         
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

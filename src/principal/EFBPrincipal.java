@@ -16,6 +16,8 @@ import paneles.CambiaPanel;
 import paneles.PanelDashboard;
 import paneles.PanelFinanzas;
 import paneles.PanelInventario;
+import paneles.PanelSostenibilidad;
+import paneles.PanelLogin;
 import ui.SidebarPanel;
 import ui.UITheme;
 
@@ -34,6 +36,9 @@ public class EFBPrincipal extends javax.swing.JFrame {
     private PanelDashboard pDashboard;
     private PanelFinanzas pFinanzas;
     private PanelInventario pInventario;
+    private PanelSostenibilidad pSostenibilidad;
+    private PanelLogin pLogin;
+    private SidebarPanel sidebarPanel;
     /**
      * Creates new form EFBPrincipal
      */
@@ -64,11 +69,17 @@ public class EFBPrincipal extends javax.swing.JFrame {
         pDashboard = new PanelDashboard();
         pFinanzas = new PanelFinanzas();
         pInventario = new PanelInventario();
+        pSostenibilidad = new PanelSostenibilidad();
+        pLogin = new PanelLogin();
         
         // ==== ADICIONO LOS PANELS AL PRINCIPAL
-        contentPanel.add(pDashboard, "dashboard");
-        contentPanel.add(pFinanzas, "finanzas");
-        contentPanel.add(pInventario, "inventario");
+        contentPanel.add(pLogin,          "login");
+        contentPanel.add(pDashboard,      "dashboard");
+        contentPanel.add(pFinanzas,       "finanzas");
+        contentPanel.add(pInventario,     "inventario");
+        contentPanel.add(pSostenibilidad, "sostenibilidad");
+        contentPanel.add(new JPanel(),    "desperdicio");
+        contentPanel.add(new JPanel(),    "reporte");
 
         // inventario
         // desperdicio
@@ -76,23 +87,29 @@ public class EFBPrincipal extends javax.swing.JFrame {
         // reporte
         
         add(contentPanel, BorderLayout.CENTER);
-        
-        // SIDEBAR IZQUIERDO
-        add(new SidebarPanel(route -> {
-            
-           /* switch(route){
-                case "dashboard":
-                //new CambiaPanel(contentPanel, new PanelDashboard());
-                break;
-                default: JOptionPane.showConfirmDialog(null, route);
-            }*/
-           
-           cardLayout.show(contentPanel, route);
-            
-            
- 
-        }), BorderLayout.WEST);
-        
+
+// SIDEBAR IZQUIERDO — oculto al inicio
+sidebarPanel = new SidebarPanel(route -> {
+    cardLayout.show(contentPanel, route);
+});
+sidebarPanel.setVisible(false);
+add(sidebarPanel, BorderLayout.WEST);
+
+// LOGIN LISTENER
+pLogin.setLoginListener(new paneles.PanelLogin.LoginListener() {
+    @Override
+    public void onLoginSuccess() {
+        sidebarPanel.setVisible(true);
+        cardLayout.show(contentPanel, "dashboard");
+    }
+    @Override
+    public void onRegisterClick() {
+        JOptionPane.showMessageDialog(null, "Módulo de registro próximamente.");
+    }
+});
+
+// MOSTRAR LOGIN AL INICIO
+cardLayout.show(contentPanel, "login");
     }
 
     /**
