@@ -16,6 +16,7 @@ import paneles.CambiaPanel;
 import paneles.PanelDashboard;
 import paneles.PanelFinanzas;
 import paneles.PanelInventario;
+import paneles.PanelSostenibilidad;
 import ui.SidebarPanel;
 import ui.UITheme;
 
@@ -31,9 +32,10 @@ public class EFBPrincipal extends javax.swing.JFrame {
     private CardLayout cardLayout;
     
     // REFERENCIA PARA CADA PANEL.
+    private PanelInventario pInventario;
     private PanelDashboard pDashboard;
     private PanelFinanzas pFinanzas;
-    private PanelInventario pInventario;
+    private PanelSostenibilidad pSostenibilidad;
     /**
      * Creates new form EFBPrincipal
      */
@@ -63,11 +65,13 @@ public class EFBPrincipal extends javax.swing.JFrame {
         // ========== INICIALIZO LOS PANELS =============
         pDashboard = new PanelDashboard(this);
         pFinanzas = new PanelFinanzas();
+        pSostenibilidad = new PanelSostenibilidad(); 
         pInventario = new PanelInventario();
         
         // ==== ADICIONO LOS PANELS AL PRINCIPAL
         contentPanel.add(pDashboard, "dashboard");
         contentPanel.add(pFinanzas, "finanzas");
+        contentPanel.add(pSostenibilidad, "sostenibilidad");
         contentPanel.add(pInventario, "inventario");
 
         // inventario
