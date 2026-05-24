@@ -275,18 +275,20 @@ public class PanelLogin extends javax.swing.JPanel {
     private void styleField(JComponent field) {
         field.setFont(UITheme.FONT_BODY);
         field.setForeground(Color.WHITE);
-        if (field instanceof JTextField tf) {
+
+        if (field instanceof JTextField) {
+            JTextField tf = (JTextField) field;
             tf.setCaretColor(Color.WHITE);
         }
-        // CLAVE: sin fondo opaco — se ve el verde del panel
+
         field.setOpaque(false);
         field.setBackground(new Color(0, 0, 0, 0));
- 
-        // Usamos tu RoundedBorder + padding interno
+
         field.setBorder(new CompoundBorder(
-            new RoundedBorder(14, new Color(255, 255, 255, 90)),
-            new EmptyBorder(10, 14, 10, 14)
+                new RoundedBorder(14, new Color(255, 255, 255, 90)),
+                new EmptyBorder(10, 14, 10, 14)
         ));
+
         field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 48));
         field.setAlignmentX(LEFT_ALIGNMENT);
     }
