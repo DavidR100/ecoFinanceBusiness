@@ -61,7 +61,7 @@ public class EFBPrincipal extends javax.swing.JFrame {
         contentPanel.setBackground(UITheme.BG);
         
         // ========== INICIALIZO LOS PANELS =============
-        pDashboard = new PanelDashboard();
+        pDashboard = new PanelDashboard(this);
         pFinanzas = new PanelFinanzas();
         pInventario = new PanelInventario();
         
@@ -87,12 +87,26 @@ public class EFBPrincipal extends javax.swing.JFrame {
                 default: JOptionPane.showConfirmDialog(null, route);
             }*/
            
-           cardLayout.show(contentPanel, route);
+           //cardLayout.show(contentPanel, route);
             
-            
+            showPanel(route);
  
         }), BorderLayout.WEST);
         
+    }
+    
+    // ── Navegación ───────────────────────────────────────────────────────────
+    public void showPanel(String name) {
+        // Refrescar datos antes de mostrar
+        /*switch (name) {
+            case "dashboard":      pDashboard.refresh();      break;
+            case "desperdicio":    pDesperdicio.refresh();    break;
+            case "reporte":        pReporte.refresh();        break;
+            case "sostenibilidad": pSostenibilidad.refresh(); break;
+        }
+        cardLayout.show(contentPanel, name);*/
+        
+        cardLayout.show(contentPanel, name);
     }
 
     /**
