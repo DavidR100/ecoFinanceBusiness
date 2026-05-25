@@ -30,6 +30,7 @@ public class AppState {
     // ── Sostenibilidad ────────────────────────────────────
     public static double totalCO2Ahorrado        = 0;
     public static int    totalAccionesSostenibles = 0;
+    public static double totalDesperdicio = 0;
  
     // ── Inventario ────────────────────────────────────────
     public static String[] nomIngredientes = new String[10];

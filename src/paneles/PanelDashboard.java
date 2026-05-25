@@ -174,8 +174,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         statsRow.setOpaque(false);
  
         // Chips de estadísticas
-        String ingreso = String.format("%.2f", app.financeService.getIngresos());
-        JPanel chipIngresos  = buildStatChip("Ingresos",  ingreso,   UITheme.VERDE_CLARO);
+        JPanel chipIngresos  = buildStatChip("Ingresos",  "$.00",   UITheme.VERDE_CLARO);
         JPanel chipGastos    = buildStatChip("Gastos",    "$0.00",   UITheme.CORAL);
         JPanel chipRegistros = buildStatChip("Registros", "0",       Color.WHITE);
  
@@ -311,123 +310,6 @@ public class PanelDashboard extends javax.swing.JPanel {
         repaint();
     }
 
-    /*private void build() {
-        add(buildPanelTitle(), BorderLayout.NORTH);
-        add(contentCenter(), BorderLayout.CENTER);
-    }
-
-    private JPanel buildPanelTitle() {
-        // === TITLE
-        JPanel top = new JPanel(new BorderLayout());
-        top.setOpaque(false); // === No pintar fondo
-
-        JLabel title = new JLabel("Dashboard");
-        title.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        title.setForeground(UITheme.INK);
-
-        // === SUB TITLE
-        JLabel subTitle = new JLabel("Pizzería Sostenible · Vista general");
-        subTitle.setFont(UITheme.FONT_SMALL);
-        subTitle.setForeground(UITheme.MUTED);
-
-        JPanel titleBox = new JPanel(new GridLayout(2, 1, 0, 2));
-        titleBox.setOpaque(false);
-        titleBox.add(title);
-        titleBox.add(subTitle);
-
-        top.add(titleBox, BorderLayout.WEST);
-
-        return top;
-    }
-
-    private JPanel contentCenter() {
-
-        JPanel center = new JPanel();
-        center.setOpaque(false);
-        center.setBorder(new EmptyBorder(18, 0, 0, 0));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
-        gbc.fill = GridBagConstraints.BOTH;
-
-        
-                gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.weightx = 2;
-        gbc.weighty = 1;
-        center.add(saldoPrincipal(gbc), gbc);
-        return center;
-
-    }
-
-    // Card 1: Saldo principal
-    private JPanel saldoPrincipal(GridBagConstraints gbc) {
-        //JPanel center = contentCenter();
-        JPanel cardSaldo = buildCardSaldo();
-
-        //center.add(cardSaldo, gbc);
-        
-        return cardSaldo;
-    }
-
-    private JPanel buildCardSaldo() {
-        JPanel card = UITheme.card(new GridBagLayout());
-        card.setBackground(UITheme.VERDE_OSCURO);
-        card.setOpaque(true);
-        card.setBorder(new EmptyBorder(20, 24, 20, 24));
-
-        JPanel inner = new JPanel();
-        inner.setOpaque(false);
-        inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
-
-        JLabel lbl = new JLabel("SALDO ACTUAL");
-        lbl.setFont(UITheme.FONT_TINY);
-        lbl.setForeground(UITheme.MENTA);
-
-        lblSaldo = new JLabel(UITheme.FMT_MONEY.format(0));
-        lblSaldo.setFont(new Font("Segoe UI", Font.BOLD, 34));
-        lblSaldo.setForeground(Color.WHITE);
-
-        JPanel statsRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 0));
-        statsRow.setOpaque(false);
-
-        lblIngresos = statChip("Ingresos", "$0.00", UITheme.VERDE_CLARO);
-        lblGastos = statChip("Gastos", "$0.00", UITheme.CORAL);
-        lblRegistros = statChip("Registros", "0", Color.WHITE);
-
-        statsRow.add(lblIngresos);
-        statsRow.add(lblGastos);
-        statsRow.add(lblRegistros);
-
-        inner.add(lbl);
-        inner.add(Box.createVerticalStrut(6));
-        inner.add(lblSaldo);
-        inner.add(Box.createVerticalStrut(14));
-        inner.add(statsRow);
-
-        card.add(inner);
-        return card;
-    }
-    
-    private JLabel statChip(String label, String value, Color valueColor) {
-            JPanel p = new JPanel();
-            p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-            p.setBackground(new Color(255,255,255,20));
-            p.setBorder(new CompoundBorder(
-                new RoundedBorder(8, new Color(255,255,255,30)),
-                new EmptyBorder(6,12,6,12)
-            ));
-            JLabel lbl = new JLabel(label);
-            lbl.setFont(UITheme.FONT_TINY);
-            lbl.setForeground(UITheme.MENTA);
-            JLabel val = new JLabel(value);
-            val.setFont(UITheme.FONT_BOLD);
-            val.setForeground(valueColor);
-            val.setName(label); // Para poder buscarlo luego
-            p.add(lbl); p.add(val);
-            return val; // RETIFICAR
-        }
-*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

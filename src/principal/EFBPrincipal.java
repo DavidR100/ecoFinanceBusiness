@@ -28,39 +28,40 @@ import ui.UITheme;
  * @author omar.rebolledo
  */
 public class EFBPrincipal extends javax.swing.JFrame {
-    
+
     public FinanceService financeService;
-    
+
     // PRINCIPALES COMPONENTES
     private JPanel contentPanel;
     private JPanel sidebar;
     private CardLayout cardLayout;
-    
+
     // REFERENCIA PARA CADA PANEL.
     private PanelDashboard pDashboard;
     private PanelFinanzas pFinanzas;
-    private PanelSostenibilidad pSostenibilidad;    
-    private PanelDesperdicio pDesperdicio;    
+    private PanelSostenibilidad pSostenibilidad;
+    private PanelDesperdicio pDesperdicio;
     private PanelReporte pReporte;
     private PanelInventario pInventario;
     private PanelLogin pLogin;
     private SidebarPanel sidebarPanel;
+
     /**
      * Creates new form EFBPrincipal
      */
     public EFBPrincipal() {
         initComponents();
-        
+
         financeService = new FinanceService();
-        guardarIngreso();
-        
+        //guardarIngreso();
+
         setTitle("EcoFinance Business - Pizzería Sostenible");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1100, 700);
         setMinimumSize(new Dimension(900, 600));
         setLocationRelativeTo(null);
         getContentPane().setBackground(UITheme.BG);
-        
+
         setLayout(new BorderLayout());  // === Es un tipo de distribución que divide el espacio en 5 zonas ===
 
         /*add(new JButton("Arriba"), BorderLayout.NORTH);
@@ -68,81 +69,80 @@ public class EFBPrincipal extends javax.swing.JFrame {
         add(new JButton("Izquierda"), BorderLayout.WEST);
         add(new JButton("Derecha"), BorderLayout.EAST);
         add(new JButton("Centro"), BorderLayout.CENTER);*/
-        
         // PANEL PRINCIPAL
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
         contentPanel.setBackground(UITheme.BG);
-        
+
         // ========== INICIALIZO LOS PANELS =============
         pLogin = new PanelLogin();
         pDashboard = new PanelDashboard(this);
-        pFinanzas = new PanelFinanzas();
-        pSostenibilidad = new PanelSostenibilidad(); 
-        pInventario = new PanelInventario();    
+        pFinanzas = new PanelFinanzas(this);
+        pSostenibilidad = new PanelSostenibilidad();
+        pInventario = new PanelInventario();
         pDesperdicio = new PanelDesperdicio(this);
         pReporte = new PanelReporte(this);
 
-
-        
         // ==== ADICIONO LOS PANELS AL PRINCIPAL
-        contentPanel.add(pLogin,          "login");
-        contentPanel.add(pDashboard,      "dashboard");
-        contentPanel.add(pFinanzas,       "finanzas");
-        contentPanel.add(pInventario,     "inventario");
+        contentPanel.add(pLogin, "login");
+        contentPanel.add(pDashboard, "dashboard");
+        contentPanel.add(pFinanzas, "finanzas");
+        contentPanel.add(pInventario, "inventario");
         contentPanel.add(pSostenibilidad, "sostenibilidad");
-        contentPanel.add(pInventario, "inventario");  
-        contentPanel.add(pDesperdicio, "desperdicio"); 
+        contentPanel.add(pInventario, "inventario");
+        contentPanel.add(pDesperdicio, "desperdicio");
         contentPanel.add(pReporte, "reporte");
-
-
 
         // inventario
         // desperdicio
         // sostenibilidad
         // reporte
-        
         add(contentPanel, BorderLayout.CENTER);
 
 // SIDEBAR IZQUIERDO — oculto al inicio
-sidebarPanel = new SidebarPanel(route -> {
-    cardLayout.show(contentPanel, route);
-});
-sidebarPanel.setVisible(false);
-add(sidebarPanel, BorderLayout.WEST);
+        sidebarPanel = new SidebarPanel(route -> {
+            //cardLayout.show(contentPanel, route);
+            showPanel(route);
+        });
+        sidebarPanel.setVisible(false);
+        add(sidebarPanel, BorderLayout.WEST);
 
 // LOGIN LISTENER
-pLogin.setLoginListener(new paneles.PanelLogin.LoginListener() {
-    @Override
-    public void onLoginSuccess() {
-        sidebarPanel.setVisible(true);
-        cardLayout.show(contentPanel, "dashboard");
-    }
-    @Override
-    public void onRegisterClick() {
-        JOptionPane.showMessageDialog(null, "Módulo de registro próximamente.");
-    }
-});
+        pLogin.setLoginListener(new paneles.PanelLogin.LoginListener() {
+            @Override
+            public void onLoginSuccess() {
+                sidebarPanel.setVisible(true);
+                cardLayout.show(contentPanel, "dashboard");
+            }
+
+            @Override
+            public void onRegisterClick() {
+                JOptionPane.showMessageDialog(null, "Módulo de registro próximamente.");
+            }
+        });
 
 // MOSTRAR LOGIN AL INICIO
-cardLayout.show(contentPanel, "login");
+        //cardLayout.show(contentPanel, "login");
+        sidebarPanel.setVisible(true);
+                cardLayout.show(contentPanel, "dashboard");
     }
-    
+
     private void guardarIngreso() {
         financeService.agregarIngreso(50000);
     }
-    
+
     // ── Navegación ───────────────────────────────────────────────────────────
     public void showPanel(String name) {
         // Refrescar datos antes de mostrar
-        /*switch (name) {
-            case "dashboard":      pDashboard.refresh();      break;
-            case "desperdicio":    pDesperdicio.refresh();    break;
-            case "reporte":        pReporte.refresh();        break;
-            case "sostenibilidad": pSostenibilidad.refresh(); break;
+        switch (name) {
+            case "dashboard":
+                pDashboard.refresh();
+                break;
+            case "inventario":    pInventario.actualizarTabla();    break;
+            // case "reporte":        pReporte.refresh();        break;
+            // case "sostenibilidad": pSostenibilidad.refresh(); break;
         }
-        cardLayout.show(contentPanel, name);*/
-        
+
         cardLayout.show(contentPanel, name);
     }
 

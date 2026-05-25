@@ -12,6 +12,7 @@ import javax.swing.border.*;
 import javax.swing.table.*;
 import ui.UITheme;
 import javax.swing.JOptionPane;
+import principal.AppState;
 
 /**
  * @author omar.rebolledo
@@ -19,11 +20,12 @@ import javax.swing.JOptionPane;
 public class PanelInventario extends javax.swing.JPanel {
 
     // === DATOS ===
-    private String[] nombres     = new String[10];
-    private double[] disponibles = new double[10];
-    private double[] usadas      = new double[10];
-    private int numIngredientes  = 0;
-
+    /*
+    private String[] nombres     = new String[10]; -> AppState.nomIngredientes
+    private double[] disponibles = new double[10]; -> AppState.cantDisponible
+    private double[] usadas      = new double[10]; -> AppState.cantUsada
+    private int numIngredientes  = 0; -> AppState.numIngredientes
+     */
     // === COMPONENTES FORMULARIO ===
     private JTextField txtNombre, txtDisponible, txtUsada;
     private JLabel lblContador;
@@ -41,7 +43,7 @@ public class PanelInventario extends javax.swing.JPanel {
     }
 
     private void build() {
-        add(buildTitle(),   BorderLayout.NORTH);
+        add(buildTitle(), BorderLayout.NORTH);
         add(buildContent(), BorderLayout.CENTER);
     }
 
@@ -78,7 +80,7 @@ public class PanelInventario extends javax.swing.JPanel {
         content.setOpaque(false);
 
         content.add(buildFormulario(), BorderLayout.WEST);
-        content.add(buildTabla(),      BorderLayout.CENTER);
+        content.add(buildTabla(), BorderLayout.CENTER);
 
         return content;
     }
@@ -144,8 +146,15 @@ public class PanelInventario extends javax.swing.JPanel {
         btnAgregar.setAlignmentX(LEFT_ALIGNMENT);
         btnAgregar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnAgregar.addMouseListener(new MouseAdapter() {
-        @Override public void mouseEntered(MouseEvent e) { btnAgregar.setBackground(UITheme.VERDE_MEDIO); }
-        @Override public void mouseExited(MouseEvent e)  { btnAgregar.setBackground(UITheme.VERDE_PRINCIPAL); }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnAgregar.setBackground(UITheme.VERDE_MEDIO);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnAgregar.setBackground(UITheme.VERDE_PRINCIPAL);
+            }
         });
         btnAgregar.addActionListener(e -> agregarIngrediente());
 
@@ -159,8 +168,15 @@ public class PanelInventario extends javax.swing.JPanel {
         btnRegistrarUso.setAlignmentX(LEFT_ALIGNMENT);
         btnRegistrarUso.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnRegistrarUso.addMouseListener(new MouseAdapter() {
-        @Override public void mouseEntered(MouseEvent e) { btnRegistrarUso.setBackground(UITheme.VERDE_CLARO); }
-        @Override public void mouseExited(MouseEvent e)  { btnRegistrarUso.setBackground(UITheme.MENTA); }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnRegistrarUso.setBackground(UITheme.VERDE_CLARO);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnRegistrarUso.setBackground(UITheme.MENTA);
+            }
         });
         btnRegistrarUso.addActionListener(e -> registrarUso());
 
@@ -190,7 +206,10 @@ public class PanelInventario extends javax.swing.JPanel {
 
         String[] columnas = {"N.", "INGREDIENTE", "DISPONIB.", "USADO", "RESTANTE", "ESTADO"};
         tableModel = new DefaultTableModel(columnas, 0) {
-            @Override public boolean isCellEditable(int row, int col) { return false; }
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
         };
 
         tabla = new JTable(tableModel);
@@ -293,8 +312,9 @@ public class PanelInventario extends javax.swing.JPanel {
 
             // === BUSCAR SI YA EXISTE ===
             int posExistente = -1;
-            for (int i = 1; i <= numIngredientes; i++) {
-                if (nombres[i].equalsIgnoreCase(nombre)) {
+            //numIngredientes
+            for (int i = 1; i <= AppState.numIngredientes; i++) {
+                if (AppState.nomIngredientes[i].equalsIgnoreCase(nombre)) {
                     posExistente = i;
                     break;
                 }
@@ -302,35 +322,40 @@ public class PanelInventario extends javax.swing.JPanel {
 
             if (posExistente != -1) {
                 // === INGREDIENTE YA EXISTE — SUMA AL STOCK ===
-                disponibles[posExistente] += disp;
+                AppState.cantDisponible[posExistente] += disp;
                 actualizarTabla();
 
                 JOptionPane.showMessageDialog(this,
-                "✅ Ingrediente ya registrado.\n" +
-                "Se sumó " + disp + " al stock de " + nombres[posExistente] + ".\n" +
-                "Stock actual: " + disponibles[posExistente],
+                        "✅ Ingrediente ya registrado.\n"
+                        + "Se sumó " + disp + " al stock de " + AppState.nomIngredientes[posExistente] + ".\n"
+                        + "Stock actual: " + AppState.cantDisponible[posExistente],
                         "Stock actualizado", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
                 // === INGREDIENTE NUEVO ===
-                if (numIngredientes >= 10) {
+                //numIngredientes
+                if (AppState.numIngredientes >= 10) {
                     JOptionPane.showMessageDialog(this,
                             "Inventario lleno. Máximo 10 ingredientes.",
                             "Inventario lleno", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
-                numIngredientes++;
-            nombres[numIngredientes]     = nombre;
-                disponibles[numIngredientes] = disp;
-            usadas[numIngredientes]      = 0;
+                //numIngredientes++;
+                AppState.numIngredientes++;
+                //nombres[numIngredientes]     = nombre;
+                AppState.nomIngredientes[AppState.numIngredientes] = nombre;
+                //disponibles[numIngredientes] = disp;
+                AppState.cantDisponible[AppState.numIngredientes] = disp;
+                //usadas[numIngredientes] = 0;
+                AppState.cantUsada[AppState.numIngredientes] = 0;
 
                 actualizarTabla();
-                lblContador.setText(numIngredientes + " ingrediente(s) registrado(s)");
-
+                //lblContador.setText(numIngredientes + " ingrediente(s) registrado(s)");
+                lblContador.setText(AppState.numIngredientes + " ingrediente(s) registrado(s)");
                 JOptionPane.showMessageDialog(this,
-                "✅ Ingrediente agregado correctamente.\n" +
-                nombre + " → " + disp + " kg disponibles.",
+                        "✅ Ingrediente agregado correctamente.\n"
+                        + nombre + " → " + disp + " kg disponibles.",
                         "Ingrediente agregado", JOptionPane.INFORMATION_MESSAGE);
             }
 
@@ -349,24 +374,35 @@ public class PanelInventario extends javax.swing.JPanel {
     // LÓGICA — REGISTRAR USO
     // ============================================================
     private void registrarUso() {
-        if (numIngredientes == 0) {
+        //if (numIngredientes == 0) {
+            if (AppState.numIngredientes == 0) {
             JOptionPane.showMessageDialog(this, "No hay ingredientes registrados.", "Sin ingredientes", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        String[] opciones = new String[numIngredientes];
-        for (int i = 1; i <= numIngredientes; i++) {
+        //String[] opciones = new String[numIngredientes];
+        String[] opciones = new String[AppState.numIngredientes];
+        /*for (int i = 1; i <= numIngredientes; i++) {
             opciones[i - 1] = i + ". " + nombres[i] + " (disponible: " + disponibles[i] + ")";
+        }*/
+
+        for (int i = 0; i < AppState.numIngredientes; i++) {
+            opciones[i] = (i + 1) + ". " + AppState.nomIngredientes[i]
+                    + " (disponible: " + AppState.cantDisponible[i] + ")";
         }
 
         String seleccion = (String) JOptionPane.showInputDialog(this, "Selecciona el ingrediente:", "Registrar uso",
                 JOptionPane.PLAIN_MESSAGE, null, opciones, opciones[0]);
-        if (seleccion == null) return;
+        if (seleccion == null) {
+            return;
+        }
 
         int pos = Integer.parseInt(seleccion.substring(0, seleccion.indexOf(".")));
 
-        String cantStr = JOptionPane.showInputDialog(this, "Cantidad utilizada de " + nombres[pos] + ":");
-        if (cantStr == null) return;
+        String cantStr = JOptionPane.showInputDialog(this, "Cantidad utilizada de " + AppState.nomIngredientes[pos] + ":");
+        if (cantStr == null) {
+            return;
+        }
 
         try {
             double cantidad = Double.parseDouble(cantStr.replace(",", "."));
@@ -375,20 +411,24 @@ public class PanelInventario extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor a 0.", "Valor inválido", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if (cantidad > disponibles[pos]) {
-                JOptionPane.showMessageDialog(this, "Stock insuficiente. Disponible: " + disponibles[pos], "Sin stock", JOptionPane.WARNING_MESSAGE);
+            //disponibles
+            if (cantidad > AppState.cantDisponible[pos]) {
+                JOptionPane.showMessageDialog(this, "Stock insuficiente. Disponible: " + AppState.cantDisponible[pos], "Sin stock", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            disponibles[pos] -= cantidad;
-            usadas[pos]      += cantidad;
+            //disponibles[pos] -= cantidad;
+            AppState.cantDisponible[pos] -= cantidad;
+
+            //usadas[pos] += cantidad;
+            AppState.cantUsada[pos] += cantidad;
             actualizarTabla();
 
             JOptionPane.showMessageDialog(this,
-                "✅ Uso registrado correctamente.\n" +
-                "Ingrediente: " + nombres[pos] + "\n" +
-                "Cantidad usada: " + cantidad + "\n" +
-                "Restante: " + disponibles[pos],
+                    "✅ Uso registrado correctamente.\n"
+                    + "Ingrediente: " + AppState.nomIngredientes[pos] + "\n"
+                    + "Cantidad usada: " + cantidad + "\n"
+                    + "Restante: " + AppState.cantDisponible[pos],
                     "Uso registrado", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (NumberFormatException ex) {
@@ -399,31 +439,59 @@ public class PanelInventario extends javax.swing.JPanel {
     // ============================================================
     // ACTUALIZAR TABLA
     // ============================================================
-    private void actualizarTabla() {
+    public void actualizarTabla() {
         tableModel.setRowCount(0);
-        for (int i = 1; i <= numIngredientes; i++) {
-            double total = disponibles[i] + usadas[i];
-            int pct      = total > 0 ? (int)((usadas[i] / total) * 100) : 0;
+        //numIngredientes
+        for (int i = 1; i <= AppState.numIngredientes; i++) {
+            //usadas
+            double total = AppState.cantDisponible[i] + AppState.cantUsada[i];
+            //usadas
+            int pct = total > 0 ? (int) ((AppState.cantUsada[i] / total) * 100) : 0;
 
             String estado;
-            if (pct <= 50)      estado = "OK (" + pct + "%)";
-            else if (pct <= 75) estado = "MEDIO (" + pct + "%)";
-            else                estado = "ALTO (" + pct + "%)";
+            if (pct <= 50) {
+                estado = "OK (" + pct + "%)";
+            } else if (pct <= 75) {
+                estado = "MEDIO (" + pct + "%)";
+            } else {
+                estado = "ALTO (" + pct + "%)";
+            }
 
             tableModel.addRow(new Object[]{
                 String.valueOf(i),
-                nombres[i],
+                AppState.nomIngredientes[i],
                 String.format("%.3f", total),
-                String.format("%.3f", usadas[i]),
-                String.format("%.3f", disponibles[i]),
+                String.format("%.3f", AppState.cantUsada[i]),
+                String.format("%.3f", AppState.cantDisponible[i]),
                 estado
             });
         }
     }
+
+    // ── Actualizar tabla con datos de AppState ────────────
+   /* 
+    public void refreshTable() {
+        tableModel.setRowCount(0);
+        for (int i = 0; i < AppState.numIngredientes; i++) {
+            double restante = AppState.cantDisponible[i] - AppState.cantUsada[i];
+            double pDesp = AppState.cantDisponible[i] > 0
+                    ? (restante / AppState.cantDisponible[i]) * 100 : 0;
+            String estado = pDesp > 30 ? "ALTO"
+                    : pDesp > 15 ? "MEDIO" : "OK";
+            tableModel.addRow(new Object[]{
+                i + 1,
+                AppState.nomIngredientes[i],
+                AppState.FMT_NUM.format(AppState.cantDisponible[i]),
+                AppState.FMT_NUM.format(AppState.cantUsada[i]),
+                AppState.FMT_NUM.format(restante),
+                estado + " (" + String.format("%.0f", pDesp) + "%)"
+            });
+        }
+    }
+*/
     // ============================================================
     // INIT COMPONENTS — NO MODIFICAR
     // ============================================================
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -447,5 +515,4 @@ public class PanelInventario extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
 }
