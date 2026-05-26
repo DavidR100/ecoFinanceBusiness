@@ -199,7 +199,7 @@ public class PanelReporte extends JPanel {
  
         lblConclu = new JLabel("Complete los módulos para ver la conclusión.");
         lblConclu.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblConclu.setForeground(Color.WHITE);
+        lblConclu.setForeground(Color.BLACK);
  
         lblFecha = new JLabel("—");
         lblFecha.setFont(UITheme.FONT_TINY);

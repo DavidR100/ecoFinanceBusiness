@@ -122,9 +122,9 @@ public class EFBPrincipal extends javax.swing.JFrame {
         });
 
 // MOSTRAR LOGIN AL INICIO
-        //cardLayout.show(contentPanel, "login");
-        sidebarPanel.setVisible(true);
-                cardLayout.show(contentPanel, "dashboard");
+        cardLayout.show(contentPanel, "login");
+        //sidebarPanel.setVisible(true);
+                //cardLayout.show(contentPanel, "dashboard");
     }
 
     private void guardarIngreso() {
@@ -139,7 +139,8 @@ public class EFBPrincipal extends javax.swing.JFrame {
                 pDashboard.refresh();
                 break;
             case "inventario":    pInventario.actualizarTabla();    break;
-            // case "reporte":        pReporte.refresh();        break;
+            case "desperdicio": pDesperdicio.refresh(); break;
+            case "reporte":        pReporte.refresh();        break;
             // case "sostenibilidad": pSostenibilidad.refresh(); break;
         }
 

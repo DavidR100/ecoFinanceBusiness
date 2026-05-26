@@ -19,21 +19,15 @@ import principal.AppState;
  */
 public class PanelInventario extends javax.swing.JPanel {
 
-    // === DATOS ===
-    /*
-    private String[] nombres     = new String[10]; -> AppState.nomIngredientes
-    private double[] disponibles = new double[10]; -> AppState.cantDisponible
-    private double[] usadas      = new double[10]; -> AppState.cantUsada
-    private int numIngredientes  = 0; -> AppState.numIngredientes
-     */
     // === COMPONENTES FORMULARIO ===
-    private JTextField txtNombre, txtDisponible, txtUsada;
-    private JLabel lblContador;
-
+    private JTextField txtNombre, txtDisponible;
+    private JLabel     lblContador;
+ 
     // === TABLA ===
     private DefaultTableModel tableModel;
-    private JTable tabla;
-
+    private JTable            tabla;
+ 
+    // ── Constructor ───────────────────────────────────────
     public PanelInventario() {
         initComponents();
         setBackground(UITheme.BG);
@@ -41,12 +35,12 @@ public class PanelInventario extends javax.swing.JPanel {
         setBorder(new EmptyBorder(24, 28, 24, 28));
         build();
     }
-
+ 
     private void build() {
-        add(buildTitle(), BorderLayout.NORTH);
+        add(buildTitle(),   BorderLayout.NORTH);
         add(buildContent(), BorderLayout.CENTER);
     }
-
+ 
     // ============================================================
     // TÍTULO
     // ============================================================
@@ -54,37 +48,35 @@ public class PanelInventario extends javax.swing.JPanel {
         JPanel top = new JPanel(new BorderLayout());
         top.setOpaque(false);
         top.setBorder(new EmptyBorder(0, 0, 20, 0));
-
-        JLabel title = new JLabel("Inventario");
+ 
+        JLabel title = new JLabel("📦  Módulo 2 — Inventario");
         title.setFont(UITheme.FONT_EMOJI_BOLD_NORMAL);
         title.setForeground(UITheme.INK);
-
+ 
         lblContador = new JLabel("0 ingredientes registrados");
         lblContador.setFont(UITheme.FONT_SMALL);
         lblContador.setForeground(UITheme.MUTED);
-
+ 
         JPanel titleBox = new JPanel(new GridLayout(2, 1, 0, 2));
         titleBox.setOpaque(false);
         titleBox.add(title);
         titleBox.add(lblContador);
         top.add(titleBox, BorderLayout.WEST);
-
+ 
         return top;
     }
-
+ 
     // ============================================================
     // CONTENIDO PRINCIPAL
     // ============================================================
     private JPanel buildContent() {
         JPanel content = new JPanel(new BorderLayout(20, 0));
         content.setOpaque(false);
-
         content.add(buildFormulario(), BorderLayout.WEST);
-        content.add(buildTabla(), BorderLayout.CENTER);
-
+        content.add(buildTabla(),      BorderLayout.CENTER);
         return content;
     }
-
+ 
     // ============================================================
     // FORMULARIO IZQUIERDO
     // ============================================================
@@ -93,93 +85,83 @@ public class PanelInventario extends javax.swing.JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(UITheme.CARD);
         panel.setBorder(new CompoundBorder(
-                new LineBorder(UITheme.LINE, 1, true),
-                new EmptyBorder(20, 20, 20, 20)
+            new LineBorder(UITheme.LINE, 1, true),
+            new EmptyBorder(20, 20, 20, 20)
         ));
-        panel.setPreferredSize(new Dimension(380, 0));
-
+        panel.setPreferredSize(new Dimension(340, 0));
+ 
+        // Título
         JLabel lblTitulo = new JLabel("Agregar ingrediente");
         lblTitulo.setFont(UITheme.FONT_BOLD);
         lblTitulo.setForeground(UITheme.INK);
         lblTitulo.setAlignmentX(LEFT_ALIGNMENT);
         lblTitulo.setBorder(new EmptyBorder(0, 0, 16, 0));
-
-        JLabel lblNombre = new JLabel("Nombre");
+ 
+        // Campo: Nombre
+        JLabel lblNombre = new JLabel("Nombre del ingrediente");
         lblNombre.setFont(UITheme.FONT_SMALL);
         lblNombre.setForeground(UITheme.MUTED);
         lblNombre.setAlignmentX(LEFT_ALIGNMENT);
-
+ 
         txtNombre = new JTextField();
         txtNombre.setFont(UITheme.FONT_BODY);
         txtNombre.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
         txtNombre.setAlignmentX(LEFT_ALIGNMENT);
         txtNombre.setBorder(new CompoundBorder(
-                new LineBorder(UITheme.VERDE_CLARO, 1, true),
-                new EmptyBorder(6, 10, 6, 10)
+            new LineBorder(UITheme.VERDE_CLARO, 1, true),
+            new EmptyBorder(6, 10, 6, 10)
         ));
         txtNombre.setBackground(UITheme.BG_SUCCESS);
-
-        // === SOLO CANTIDAD DISPONIBLE ===
-        JLabel lblDisp = new JLabel("Cantidad disponible");
+ 
+        // Campo: Cantidad disponible
+        JLabel lblDisp = new JLabel("Cantidad disponible (kg / unidades)");
         lblDisp.setFont(UITheme.FONT_SMALL);
         lblDisp.setForeground(UITheme.MUTED);
         lblDisp.setAlignmentX(LEFT_ALIGNMENT);
-
+ 
         txtDisponible = new JTextField("0.00");
         txtDisponible.setFont(UITheme.FONT_BODY);
         txtDisponible.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
         txtDisponible.setAlignmentX(LEFT_ALIGNMENT);
         txtDisponible.setBorder(new CompoundBorder(
-                new LineBorder(UITheme.VERDE_CLARO, 1, true),
-                new EmptyBorder(6, 10, 6, 10)
+            new LineBorder(UITheme.VERDE_CLARO, 1, true),
+            new EmptyBorder(6, 10, 6, 10)
         ));
         txtDisponible.setBackground(UITheme.BG_SUCCESS);
-
-        // === BOTONES VERTICALES Y ANCHOS ===
+ 
+        // Botón: Agregar
         JButton btnAgregar = new JButton("+ Agregar ingrediente");
         btnAgregar.setFont(UITheme.FONT_BOLD);
         btnAgregar.setBackground(UITheme.VERDE_PRINCIPAL);
         btnAgregar.setForeground(Color.WHITE);
         btnAgregar.setFocusPainted(false);
         btnAgregar.setBorderPainted(false);
-        btnAgregar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        btnAgregar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
         btnAgregar.setAlignmentX(LEFT_ALIGNMENT);
         btnAgregar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnAgregar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                btnAgregar.setBackground(UITheme.VERDE_MEDIO);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                btnAgregar.setBackground(UITheme.VERDE_PRINCIPAL);
-            }
+            @Override public void mouseEntered(MouseEvent e) { btnAgregar.setBackground(UITheme.VERDE_MEDIO); }
+            @Override public void mouseExited(MouseEvent e)  { btnAgregar.setBackground(UITheme.VERDE_PRINCIPAL); }
         });
         btnAgregar.addActionListener(e -> agregarIngrediente());
-
-        JButton btnRegistrarUso = new JButton("Registrar uso");
+ 
+        // Botón: Registrar uso
+        JButton btnRegistrarUso = new JButton("✏ Registrar uso");
         btnRegistrarUso.setFont(UITheme.FONT_BOLD);
         btnRegistrarUso.setBackground(UITheme.MENTA);
         btnRegistrarUso.setForeground(UITheme.VERDE_OSCURO);
         btnRegistrarUso.setFocusPainted(false);
         btnRegistrarUso.setBorderPainted(false);
-        btnRegistrarUso.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        btnRegistrarUso.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
         btnRegistrarUso.setAlignmentX(LEFT_ALIGNMENT);
         btnRegistrarUso.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnRegistrarUso.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                btnRegistrarUso.setBackground(UITheme.VERDE_CLARO);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                btnRegistrarUso.setBackground(UITheme.MENTA);
-            }
+            @Override public void mouseEntered(MouseEvent e) { btnRegistrarUso.setBackground(UITheme.VERDE_CLARO); }
+            @Override public void mouseExited(MouseEvent e)  { btnRegistrarUso.setBackground(UITheme.MENTA); }
         });
         btnRegistrarUso.addActionListener(e -> registrarUso());
-
+ 
+        // Ensamblar
         panel.add(lblTitulo);
         panel.add(lblNombre);
         panel.add(Box.createVerticalStrut(4));
@@ -193,276 +175,276 @@ public class PanelInventario extends javax.swing.JPanel {
         panel.add(Box.createVerticalStrut(8));
         panel.add(btnRegistrarUso);
         panel.add(Box.createVerticalGlue());
-
+ 
         return panel;
     }
-
+ 
     // ============================================================
     // TABLA DERECHA
     // ============================================================
     private JPanel buildTabla() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(false);
-
-        String[] columnas = {"N.", "INGREDIENTE", "DISPONIB.", "USADO", "RESTANTE", "ESTADO"};
+ 
+        String[] columnas = {"N.", "INGREDIENTE", "TOTAL", "USADO", "RESTANTE", "ESTADO"};
         tableModel = new DefaultTableModel(columnas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
+            @Override public boolean isCellEditable(int row, int col) { return false; }
         };
-
+ 
         tabla = new JTable(tableModel);
         tabla.setFont(UITheme.FONT_BODY);
-        tabla.setRowHeight(48);
+        tabla.setRowHeight(44);
         tabla.setShowGrid(false);
         tabla.setIntercellSpacing(new Dimension(0, 0));
         tabla.setBackground(UITheme.CARD);
         tabla.setSelectionBackground(UITheme.BG_SUCCESS);
         tabla.setSelectionForeground(UITheme.INK);
         tabla.setFocusable(false);
-
+ 
+        // Header
         JTableHeader header = tabla.getTableHeader();
         header.setFont(UITheme.FONT_BOLD);
         header.setBackground(UITheme.VERDE_OSCURO);
         header.setForeground(Color.WHITE);
         header.setPreferredSize(new Dimension(0, 40));
         header.setBorder(BorderFactory.createEmptyBorder());
-
+        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable t, Object val,
+                    boolean sel, boolean foc, int row, int col) {
+                JLabel l = (JLabel) super.getTableCellRendererComponent(
+                        t, val, sel, foc, row, col);
+                l.setBackground(UITheme.VERDE_OSCURO);
+                l.setForeground(Color.WHITE);
+                l.setFont(UITheme.FONT_BOLD);
+                l.setBorder(new EmptyBorder(0, 12, 0, 12));
+                l.setOpaque(true);
+                return l;
+            }
+        });
+ 
+        // Renderer por celda
         tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable t, Object val,
                     boolean sel, boolean foc, int row, int col) {
-
-                JLabel lbl = (JLabel) super.getTableCellRendererComponent(t, val, sel, foc, row, col);
-                lbl.setBorder(new EmptyBorder(0, 16, 0, 16));
+                JLabel lbl = (JLabel) super.getTableCellRendererComponent(
+                        t, val, sel, foc, row, col);
+                lbl.setBorder(new EmptyBorder(0, 12, 0, 12));
                 lbl.setFont(col == 1 ? UITheme.FONT_BOLD : UITheme.FONT_BODY);
                 lbl.setBackground(row % 2 == 0 ? UITheme.CARD : UITheme.BG);
                 lbl.setForeground(UITheme.INK);
                 lbl.setOpaque(true);
-
+ 
+                // Columna ESTADO con color semáforo
                 if (col == 5 && val != null) {
                     String estado = val.toString();
-                    if (estado.startsWith("OK")) {
-                        lbl.setBackground(UITheme.BG_SUCCESS);
-                        lbl.setForeground(UITheme.GREEN_VAL);
-                    } else if (estado.startsWith("MEDIO")) {
-                        lbl.setBackground(UITheme.BG_WARNING);
-                        lbl.setForeground(UITheme.AMBER);
-                    } else if (estado.startsWith("ALTO")) {
-                        lbl.setBackground(UITheme.BG_DANGER);
-                        lbl.setForeground(UITheme.RED_VAL);
-                    }
+                    if      (estado.startsWith("OK"))    { lbl.setBackground(UITheme.BG_SUCCESS); lbl.setForeground(UITheme.GREEN_VAL); }
+                    else if (estado.startsWith("MEDIO")) { lbl.setBackground(UITheme.BG_WARNING); lbl.setForeground(UITheme.AMBER); }
+                    else if (estado.startsWith("ALTO"))  { lbl.setBackground(UITheme.BG_DANGER);  lbl.setForeground(UITheme.RED_VAL); }
                     lbl.setHorizontalAlignment(CENTER);
-                    lbl.setBorder(new CompoundBorder(
-                            new EmptyBorder(8, 8, 8, 8),
-                            BorderFactory.createEmptyBorder()
-                    ));
-                }
-
-                if (col == 0) {
-                    lbl.setText(val != null ? val.toString() : "");
+                } else if (col == 0) {
                     lbl.setHorizontalAlignment(CENTER);
                 } else if (col >= 2) {
                     lbl.setHorizontalAlignment(RIGHT);
                 } else {
                     lbl.setHorizontalAlignment(LEFT);
                 }
-
                 return lbl;
             }
         });
-
+ 
+        // Anchos
         tabla.getColumnModel().getColumn(0).setPreferredWidth(40);
         tabla.getColumnModel().getColumn(1).setPreferredWidth(160);
-        tabla.getColumnModel().getColumn(2).setPreferredWidth(90);
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(80);
         tabla.getColumnModel().getColumn(3).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(4).setPreferredWidth(90);
+        tabla.getColumnModel().getColumn(4).setPreferredWidth(80);
         tabla.getColumnModel().getColumn(5).setPreferredWidth(90);
-
+ 
         JScrollPane scroll = new JScrollPane(tabla);
         scroll.setBorder(new LineBorder(UITheme.LINE, 1, true));
         scroll.getViewport().setBackground(UITheme.CARD);
-
+ 
         panel.add(scroll, BorderLayout.CENTER);
         return panel;
     }
-
+ 
     // ============================================================
-    // LÓGICA — AGREGAR INGREDIENTE
+    // LÓGICA — AGREGAR INGREDIENTE  (base-0 corregido)
     // ============================================================
     private void agregarIngrediente() {
         String nombre = txtNombre.getText().trim();
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                    "Ingresa el nombre del ingrediente.",
-                    "Campo vacío", JOptionPane.WARNING_MESSAGE);
+                "Ingresa el nombre del ingrediente.",
+                "Campo vacío", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+ 
+        double disp;
         try {
-            double disp = Double.parseDouble(txtDisponible.getText().replace(",", "."));
-
-            if (disp <= 0) {
-                JOptionPane.showMessageDialog(this,
-                        "La cantidad disponible debe ser mayor a 0.",
-                        "Valor inválido", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            // === BUSCAR SI YA EXISTE ===
-            int posExistente = -1;
-            //numIngredientes
-            for (int i = 1; i <= AppState.numIngredientes; i++) {
-                if (AppState.nomIngredientes[i].equalsIgnoreCase(nombre)) {
-                    posExistente = i;
-                    break;
-                }
-            }
-
-            if (posExistente != -1) {
-                // === INGREDIENTE YA EXISTE — SUMA AL STOCK ===
-                AppState.cantDisponible[posExistente] += disp;
-                actualizarTabla();
-
-                JOptionPane.showMessageDialog(this,
-                        "✅ Ingrediente ya registrado.\n"
-                        + "Se sumó " + disp + " al stock de " + AppState.nomIngredientes[posExistente] + ".\n"
-                        + "Stock actual: " + AppState.cantDisponible[posExistente],
-                        "Stock actualizado", JOptionPane.INFORMATION_MESSAGE);
-
-            } else {
-                // === INGREDIENTE NUEVO ===
-                //numIngredientes
-                if (AppState.numIngredientes >= 10) {
-                    JOptionPane.showMessageDialog(this,
-                            "Inventario lleno. Máximo 10 ingredientes.",
-                            "Inventario lleno", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                //numIngredientes++;
-                AppState.numIngredientes++;
-                //nombres[numIngredientes]     = nombre;
-                AppState.nomIngredientes[AppState.numIngredientes] = nombre;
-                //disponibles[numIngredientes] = disp;
-                AppState.cantDisponible[AppState.numIngredientes] = disp;
-                //usadas[numIngredientes] = 0;
-                AppState.cantUsada[AppState.numIngredientes] = 0;
-
-                actualizarTabla();
-                //lblContador.setText(numIngredientes + " ingrediente(s) registrado(s)");
-                lblContador.setText(AppState.numIngredientes + " ingrediente(s) registrado(s)");
-                JOptionPane.showMessageDialog(this,
-                        "✅ Ingrediente agregado correctamente.\n"
-                        + nombre + " → " + disp + " kg disponibles.",
-                        "Ingrediente agregado", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-            // === LIMPIAR FORMULARIO ===
-            txtNombre.setText("");
-            txtDisponible.setText("0.00");
-
+            disp = Double.parseDouble(txtDisponible.getText().replace(",", "."));
+            if (disp <= 0) throw new NumberFormatException();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
-                    "Ingresa un número válido en la cantidad.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                "Ingresa una cantidad válida mayor a 0.",
+                "Valor inválido", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+ 
+        // ── Buscar si ya existe (base-0) ─────────────────
+        int posExistente = -1;
+        for (int i = 0; i < AppState.numIngredientes; i++) {
+            if (AppState.nomIngredientes[i].equalsIgnoreCase(nombre)) {
+                posExistente = i;
+                break;
+            }
+        }
+ 
+        if (posExistente != -1) {
+            // Ingrediente existe → sumar stock
+            AppState.cantDisponible[posExistente] += disp;
+            actualizarTabla();
+            JOptionPane.showMessageDialog(this,
+                "✅ Ingrediente ya registrado.\n"
+                + "Se sumaron " + disp + " al stock de '"
+                + AppState.nomIngredientes[posExistente] + "'.\n"
+                + "Stock total: " + AppState.cantDisponible[posExistente],
+                "Stock actualizado", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Ingrediente nuevo → verificar límite
+            if (AppState.numIngredientes >= 10) {
+                JOptionPane.showMessageDialog(this,
+                    "Inventario lleno. Máximo 10 ingredientes.",
+                    "Inventario lleno", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+ 
+            // ── CORRECCIÓN BUG: guardar en [numIngredientes] ANTES de incrementar
+            // Antes (buggy):  numIngredientes++; arr[numIngredientes] = valor; → base-1
+            // Ahora (correcto): arr[numIngredientes] = valor; numIngredientes++;  → base-0
+            AppState.nomIngredientes[AppState.numIngredientes] = nombre;
+            AppState.cantDisponible[AppState.numIngredientes]  = disp;
+            AppState.cantUsada[AppState.numIngredientes]       = 0;
+            AppState.numIngredientes++;                         // ← incrementar AL FINAL
+ 
+            actualizarTabla();
+            lblContador.setText(AppState.numIngredientes
+                + " ingrediente(s) registrado(s)");
+ 
+            JOptionPane.showMessageDialog(this,
+                "✅ Ingrediente agregado correctamente.\n"
+                + "'" + nombre + "' → " + disp + " unidades disponibles.",
+                "Ingrediente agregado", JOptionPane.INFORMATION_MESSAGE);
+        }
+ 
+        // Limpiar formulario
+        txtNombre.setText("");
+        txtDisponible.setText("0.00");
     }
-
+ 
     // ============================================================
-    // LÓGICA — REGISTRAR USO
+    // LÓGICA — REGISTRAR USO  (base-0 corregido)
     // ============================================================
     private void registrarUso() {
-        //if (numIngredientes == 0) {
-            if (AppState.numIngredientes == 0) {
-            JOptionPane.showMessageDialog(this, "No hay ingredientes registrados.", "Sin ingredientes", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        //String[] opciones = new String[numIngredientes];
-        String[] opciones = new String[AppState.numIngredientes];
-        /*for (int i = 1; i <= numIngredientes; i++) {
-            opciones[i - 1] = i + ". " + nombres[i] + " (disponible: " + disponibles[i] + ")";
-        }*/
-
-        for (int i = 0; i < AppState.numIngredientes; i++) {
-            opciones[i] = (i + 1) + ". " + AppState.nomIngredientes[i]
-                    + " (disponible: " + AppState.cantDisponible[i] + ")";
-        }
-
-        String seleccion = (String) JOptionPane.showInputDialog(this, "Selecciona el ingrediente:", "Registrar uso",
-                JOptionPane.PLAIN_MESSAGE, null, opciones, opciones[0]);
-        if (seleccion == null) {
-            return;
-        }
-
-        int pos = Integer.parseInt(seleccion.substring(0, seleccion.indexOf(".")));
-
-        String cantStr = JOptionPane.showInputDialog(this, "Cantidad utilizada de " + AppState.nomIngredientes[pos] + ":");
-        if (cantStr == null) {
-            return;
-        }
-
-        try {
-            double cantidad = Double.parseDouble(cantStr.replace(",", "."));
-
-            if (cantidad <= 0) {
-                JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor a 0.", "Valor inválido", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            //disponibles
-            if (cantidad > AppState.cantDisponible[pos]) {
-                JOptionPane.showMessageDialog(this, "Stock insuficiente. Disponible: " + AppState.cantDisponible[pos], "Sin stock", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            //disponibles[pos] -= cantidad;
-            AppState.cantDisponible[pos] -= cantidad;
-
-            //usadas[pos] += cantidad;
-            AppState.cantUsada[pos] += cantidad;
-            actualizarTabla();
-
+        if (AppState.numIngredientes == 0) {
             JOptionPane.showMessageDialog(this,
-                    "✅ Uso registrado correctamente.\n"
-                    + "Ingrediente: " + AppState.nomIngredientes[pos] + "\n"
-                    + "Cantidad usada: " + cantidad + "\n"
-                    + "Restante: " + AppState.cantDisponible[pos],
-                    "Uso registrado", JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                "No hay ingredientes registrados.",
+                "Sin ingredientes", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+ 
+        // ── Construir opciones desde índice 0 ────────────
+        String[] opciones = new String[AppState.numIngredientes];
+        for (int i = 0; i < AppState.numIngredientes; i++) {
+            opciones[i] = (i + 1) + ". "
+                + AppState.nomIngredientes[i]           // lee base-0 correctamente
+                + "  (disponible: "
+                + String.format("%.3f", AppState.cantDisponible[i]) + ")";
+        }
+ 
+        String seleccion = (String) JOptionPane.showInputDialog(
+            this, "Selecciona el ingrediente a usar:",
+            "Registrar uso", JOptionPane.PLAIN_MESSAGE,
+            null, opciones, opciones[0]);
+        if (seleccion == null) return;
+ 
+        // ── Extraer índice real (número del string - 1) ──
+        // El string tiene forma "1. Harina  (disponible: 5.000)"
+        // El número visible es base-1 para el usuario, pero el índice real es base-0
+        int numVisible = Integer.parseInt(
+            seleccion.substring(0, seleccion.indexOf(".")));
+        int idx = numVisible - 1;           // ← CORRECCIÓN: convertir a base-0
+ 
+        String cantStr = JOptionPane.showInputDialog(this,
+            "Cantidad a usar de '" + AppState.nomIngredientes[idx] + "'\n"
+            + "Disponible: " + String.format("%.3f", AppState.cantDisponible[idx]));
+        if (cantStr == null) return;
+ 
+        double cantidad;
+        try {
+            cantidad = Double.parseDouble(cantStr.trim().replace(",", "."));
+            if (cantidad <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this,
+                "Ingresa un número válido mayor a 0.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+ 
+        if (cantidad > AppState.cantDisponible[idx]) {
+            JOptionPane.showMessageDialog(this,
+                "Stock insuficiente.\nDisponible: "
+                + String.format("%.3f", AppState.cantDisponible[idx]),
+                "Sin stock", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+ 
+        // Actualizar AppState (base-0)
+        AppState.cantDisponible[idx] -= cantidad;
+        AppState.cantUsada[idx]      += cantidad;
+ 
+        actualizarTabla();
+ 
+        JOptionPane.showMessageDialog(this,
+            "✅ Uso registrado correctamente.\n"
+            + "Ingrediente: " + AppState.nomIngredientes[idx] + "\n"
+            + "Cantidad usada: " + String.format("%.3f", cantidad) + "\n"
+            + "Restante: " + String.format("%.3f", AppState.cantDisponible[idx]),
+            "Uso registrado", JOptionPane.INFORMATION_MESSAGE);
     }
-
+ 
     // ============================================================
-    // ACTUALIZAR TABLA
+    // ACTUALIZAR TABLA  (base-0 corregido)
     // ============================================================
     public void actualizarTabla() {
         tableModel.setRowCount(0);
-        //numIngredientes
-        for (int i = 1; i <= AppState.numIngredientes; i++) {
-            //usadas
-            double total = AppState.cantDisponible[i] + AppState.cantUsada[i];
-            //usadas
-            int pct = total > 0 ? (int) ((AppState.cantUsada[i] / total) * 100) : 0;
-
+ 
+        // ── CORRECCIÓN: iterar de 0 a numIngredientes-1 (base-0) ──
+        for (int i = 0; i < AppState.numIngredientes; i++) {
+            double disponible = AppState.cantDisponible[i];
+            double usado      = AppState.cantUsada[i];
+            // "total original" = disponible actual + lo que ya se usó
+            double totalOriginal = disponible + usado;
+            // Porcentaje de uso sobre el total original
+            int pctUso = totalOriginal > 0
+                ? (int)((usado / totalOriginal) * 100) : 0;
+            // Porcentaje de sobrante (para desperdicio)
+            double pctSobrante = totalOriginal > 0
+                ? (disponible / totalOriginal) * 100 : 0;
+ 
             String estado;
-            if (pct <= 50) {
-                estado = "OK (" + pct + "%)";
-            } else if (pct <= 75) {
-                estado = "MEDIO (" + pct + "%)";
-            } else {
-                estado = "ALTO (" + pct + "%)";
-            }
-
+            if      (pctSobrante > 30) estado = "ALTO ("   + String.format("%.0f", pctSobrante) + "%)";
+            else if (pctSobrante > 15) estado = "MEDIO ("  + String.format("%.0f", pctSobrante) + "%)";
+            else                       estado = "OK ("      + String.format("%.0f", pctSobrante) + "%)";
+ 
             tableModel.addRow(new Object[]{
-                String.valueOf(i),
+                String.valueOf(i + 1),              // número visible base-1
                 AppState.nomIngredientes[i],
-                String.format("%.3f", total),
-                String.format("%.3f", AppState.cantUsada[i]),
-                String.format("%.3f", AppState.cantDisponible[i]),
+                String.format("%.3f", totalOriginal),
+                String.format("%.3f", usado),
+                String.format("%.3f", disponible),  // restante
                 estado
             });
         }
