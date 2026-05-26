@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import paneles.CambiaPanel;
 import paneles.PanelDashboard;
 import paneles.PanelDesperdicio;
+import paneles.PanelDesperdicio2;
 import paneles.PanelFinanzas;
 import paneles.PanelInventario;
 import paneles.PanelReporte;
@@ -41,6 +42,7 @@ public class EFBPrincipal extends javax.swing.JFrame {
     private PanelFinanzas pFinanzas;
     private PanelSostenibilidad pSostenibilidad;
     private PanelDesperdicio pDesperdicio;
+    private PanelDesperdicio2 pDesperdicio2;
     private PanelReporte pReporte;
     private PanelInventario pInventario;
     private PanelLogin pLogin;
@@ -81,6 +83,8 @@ public class EFBPrincipal extends javax.swing.JFrame {
         pSostenibilidad = new PanelSostenibilidad();
         pInventario = new PanelInventario();
         pDesperdicio = new PanelDesperdicio(this);
+        pDesperdicio2 = new PanelDesperdicio2(this);
+
         pReporte = new PanelReporte(this);
 
         // ==== ADICIONO LOS PANELS AL PRINCIPAL
@@ -91,6 +95,8 @@ public class EFBPrincipal extends javax.swing.JFrame {
         contentPanel.add(pSostenibilidad, "sostenibilidad");
         contentPanel.add(pInventario, "inventario");
         contentPanel.add(pDesperdicio, "desperdicio");
+        contentPanel.add(pDesperdicio2, "desperdicio2");
+
         contentPanel.add(pReporte, "reporte");
 
         // inventario
@@ -122,9 +128,9 @@ public class EFBPrincipal extends javax.swing.JFrame {
         });
 
 // MOSTRAR LOGIN AL INICIO
-        cardLayout.show(contentPanel, "login");
-        //sidebarPanel.setVisible(true);
-                //cardLayout.show(contentPanel, "dashboard");
+        //cardLayout.show(contentPanel, "login");
+        sidebarPanel.setVisible(true);
+        cardLayout.show(contentPanel, "dashboard");
     }
 
     private void guardarIngreso() {
@@ -138,9 +144,18 @@ public class EFBPrincipal extends javax.swing.JFrame {
             case "dashboard":
                 pDashboard.refresh();
                 break;
-            case "inventario":    pInventario.actualizarTabla();    break;
-            case "desperdicio": pDesperdicio.refresh(); break;
-            case "reporte":        pReporte.refresh();        break;
+            case "inventario":
+                pInventario.actualizarTabla();
+                break;
+            case "desperdicio":
+                pDesperdicio.refresh();
+            case "desperdicio2":
+                pDesperdicio2.refresh();
+                //pDesperdicio2.actualizarGrid();
+                break;
+            case "reporte":
+                pReporte.refresh();
+                break;
             // case "sostenibilidad": pSostenibilidad.refresh(); break;
         }
 

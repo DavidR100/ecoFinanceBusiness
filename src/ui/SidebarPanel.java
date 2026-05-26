@@ -39,6 +39,7 @@ public class SidebarPanel extends javax.swing.JPanel {
         {"💰", "Finanzas",         "finanzas"},
         {"📦", "Inventario",       "inventario"},
         {"📊", "Desperdicio",      "desperdicio"},
+        {"📊", "Desperdicio2",      "desperdicio2"},
         {"♻️", "Sostenibilidad 3R","sostenibilidad"},
         {"📋", "Reporte General",  "reporte"}
     };
